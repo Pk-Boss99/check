@@ -1,9 +1,12 @@
 import * as FileSystem from 'expo-file-system';
 
 // ----------------------------------------------------------------
-//  PLACEHOLDER: paste your own key from https://aistudio.google.com/apikey
+//  Read from .env (gitignored) so the key is never committed.
+//  Create a file named .env next to package.json containing:
+//      EXPO_PUBLIC_GEMINI_API_KEY=your_key_here
+//  Get a free key at https://aistudio.google.com/apikey
 // ----------------------------------------------------------------
-export const GEMINI_API_KEY = 'YOUR_API_KEY_HERE';
+export const GEMINI_API_KEY = (process.env.EXPO_PUBLIC_GEMINI_API_KEY || '').trim().replace(/^["']|["']$/g, '');
 
 export const GEMINI_MODEL = 'gemini-3.6-flash';
 
@@ -78,8 +81,19 @@ function parseModelJson(rawText) {
  * can surface a real message instead of silently filling blank fields.
  */
 export async function extractContractDetails(imageUri) {
-  if (!GEMINI_API_KEY || GEMINI_API_KEY === 'YOUR_API_KEY_HERE') {
-    throw new Error('Add your Gemini API key to src/gemini.js (GEMINI_API_KEY).');
+  if (!GEMINI_API_KEY) {
+    throw new Error(
+      'No Gemini API key found. Create a .env file in the project root with:\n' +
+        'EXPO_PUBLIC_GEMINI_API_KEY=AIza...\n' +
+        'Get a free key at https://aistudio.google.com/apikey, then restart with: npx expo start --clear'
+    );
+  }
+
+  if (!GEMINI_API_KEY.startsWith('AIza')) {
+    throw new Error(
+      `Your API key looks wrong - it starts with "${GEMINI_API_KEY.slice(0, 4)}" but Gemini keys start with "AIza". ` +
+        'Make sure you copied an API key (not an OAuth token) from https://aistudio.google.com/apikey'
+    );
   }
 
   const base64 = await uriToBase64(imageUri);
