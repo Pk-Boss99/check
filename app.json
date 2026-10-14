@@ -1,0 +1,23 @@
+{
+  "expo": {
+    "name": "Event Contract Manager",
+    "slug": "event-contract-manager",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "android": {
+      "package": "com.pkboss99.eventcontractmanager"
+    },
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Allow $(PRODUCT_NAME) to access your photos to attach contract images.",
+          "cameraPermission": "Allow $(PRODUCT_NAME) to use the camera to photograph contracts."
+        }
+      ],
+      "expo-sqlite",
+      "expo-status-bar"
+    ]
+  }
+}

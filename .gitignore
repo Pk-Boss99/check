@@ -2,6 +2,10 @@
 node_modules/
 vendor/
 
+# Expo local state
+.expo/
+.bundle-check/
+
 # Build output
 dist/
 build/
